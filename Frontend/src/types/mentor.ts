@@ -9,6 +9,7 @@ export type MentorId =
 export type MentorDefinition = {
   id: MentorId;
   title: string;
+  description: string;
   icon: LucideIcon;
   color: string;
 };

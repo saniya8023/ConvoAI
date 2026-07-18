@@ -4,3 +4,4 @@ export type ApiError = {
 };
 
 export * from "./mentor";
+export * from "./chat";

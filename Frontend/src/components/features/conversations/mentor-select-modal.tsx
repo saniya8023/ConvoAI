@@ -6,13 +6,15 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MentorCard } from "@/components/features/conversations/mentor-card";
 import { MAX_SELECTED_MENTORS, MENTORS } from "@/constants";
-import { useMentorStore } from "@/stores";
+import { useConversationStore } from "@/stores";
 
 export function MentorSelectModal() {
-  const isModalOpen = useMentorStore((state) => state.isModalOpen);
-  const selectedMentorIds = useMentorStore((state) => state.selectedMentorIds);
-  const toggleMentor = useMentorStore((state) => state.toggleMentor);
-  const closeModal = useMentorStore((state) => state.closeModal);
+  const isModalOpen = useConversationStore((state) => state.isMentorModalOpen);
+  const selectedMentorIds = useConversationStore(
+    (state) => state.selectedMentorIds
+  );
+  const toggleMentor = useConversationStore((state) => state.toggleMentor);
+  const closeModal = useConversationStore((state) => state.closeMentorModal);
 
   const limitReached = selectedMentorIds.length >= MAX_SELECTED_MENTORS;
 

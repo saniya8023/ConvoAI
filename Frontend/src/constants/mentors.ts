@@ -6,24 +6,28 @@ export const MENTORS: MentorDefinition[] = [
   {
     id: "career-mentor",
     title: "Career Mentor",
+    description: "Helps you plan your career path and grow your skills.",
     icon: Briefcase,
     color: "#58A6FF",
   },
   {
     id: "therapist",
     title: "Therapist",
+    description: "Supports your emotional wellbeing and confidence.",
     icon: HeartHandshake,
     color: "#3FB950",
   },
   {
     id: "startup-advisor",
     title: "Startup Advisor",
+    description: "Guides your product ideas and startup strategy.",
     icon: Rocket,
     color: "#F0883E",
   },
   {
     id: "study-coach",
     title: "Study Coach",
+    description: "Helps you build better study habits and focus.",
     icon: GraduationCap,
     color: "#A371F7",
   },

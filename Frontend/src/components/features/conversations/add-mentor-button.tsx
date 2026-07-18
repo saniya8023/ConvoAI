@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 
 import { MentorSelectModal } from "@/components/features/conversations/mentor-select-modal";
-import { useMentorStore } from "@/stores";
+import { useConversationStore } from "@/stores";
 
 export function AddMentorButton() {
-  const openModal = useMentorStore((state) => state.openModal);
+  const openModal = useConversationStore((state) => state.openMentorModal);
 
   return (
     <>
