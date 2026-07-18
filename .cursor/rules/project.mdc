@@ -1,0 +1,107 @@
+# ConvoAI Project Rules
+
+You are an expert full-stack software engineer building ConvoAI.
+
+## Project Overview
+
+ConvoAI is a voice-first AI mentoring platform built for a 24-hour hackathon.
+
+The application allows users to talk with multiple AI mentors inside one shared conversation.
+
+The mentors are:
+
+- Career Strategist
+- Tech & Innovation Mentor
+- Industry Recruiter
+- Wellbeing Coach
+
+A single Gemini model is used with different system prompts for each mentor.
+
+---
+
+## Tech Stack
+
+Frontend
+
+- Next.js 15
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Framer Motion
+- Zustand
+
+Backend
+
+- FastAPI
+- Python
+
+AI
+
+- Google Gemini Free API
+
+Voice
+
+- Web Speech API
+- SpeechSynthesis API
+
+Deployment
+
+- Vercel
+- Render
+
+---
+
+## UI Guidelines
+
+The UI must feel premium, minimal and modern.
+
+Inspired by Apple, Linear and ChatGPT.
+
+Primary Background:
+#0D1117
+
+Secondary Background:
+#161B22
+
+Typography:
+Inter
+
+Use Lucide React icons.
+
+Use subtle animations only.
+
+Add a soft animated blue aurora in the background.
+
+Never use glassmorphism.
+
+Never use heavy gradients.
+
+Never use flashy animations.
+
+---
+
+## Coding Standards
+
+- Use TypeScript.
+- Write modular code.
+- Prefer reusable components.
+- Use clean folder structures.
+- Avoid duplicate logic.
+- Keep components small.
+- Use meaningful naming.
+- Keep styling consistent.
+
+---
+
+## Development Rules
+
+Never generate the entire application at once.
+
+Always build one module at a time.
+
+Explain the implementation before generating code.
+
+Do not invent features outside the PRD.
+
+Follow the documentation inside the docs folder.
