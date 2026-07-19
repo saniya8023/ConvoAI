@@ -2,10 +2,10 @@
 
 # ConvoAI
 
-**Version:** 1.0
-**Status:** Frozen
-**Project Type:** AI-Powered Voice-First Multi-Mentor Platform
-**Development Approach:** MVP (24-Hour Hackathon)
+- **Version:** 1.0
+- **Status:** Frozen
+- **Project Type:** AI-Powered Voice-First Multi-Mentor Platform
+- **Development Approach:** MVP (24-Hour Hackathon)
 
 ---
 
@@ -38,7 +38,9 @@ Existing AI assistants generally provide one generalized response rather than mu
 
 ConvoAI provides a virtual panel of AI mentors.
 
-Users select the mentors they wish to consult and communicate through voice.
+Users first select the mentors they want in the discussion.
+
+After submitting a single prompt, ConvoAI automatically coordinates a structured conversation where every selected mentor contributes in sequence while sharing the same conversation context.
 
 Each mentor analyzes the user's query from their own professional perspective while considering the ongoing conversation.
 
@@ -145,12 +147,6 @@ Notes are automatically saved locally.
 
 ---
 
-## Conversation History
-
-Users may access previous conversations through a collapsible sidebar.
-
----
-
 # 7. Mentor Roles
 
 ## Career Strategist
@@ -202,15 +198,19 @@ Responsibilities:
 
 ---
 
+# User Journey 
+
 1. User opens ConvoAI.
 2. User selects mentors.
 3. User starts voice recording or types a prompt.
 4. Speech is converted into text (if voice is used).
 5. User sends a single prompt.
-6. The first mentor responds.
-7. Remaining mentors automatically respond one after another.
-8. Responses are spoken aloud using Text-to-Speech.
-9. After all mentors finish, the user can ask another question.
+6. The first selected mentor begins responding.
+7. Remaining mentors automatically continue the discussion in sequence.
+8. Each mentor builds upon the previous responses while adding unique insights.
+9. Responses are displayed and spoken using Text-to-Speech.
+10. After the discussion round ends, the user may submit another prompt.
+    
 ---
 
 # 9. Functional Requirements
@@ -227,7 +227,6 @@ The system shall:
 * Animate the active mentor while speaking.
 * Allow manual note-taking.
 * Allow conversation renaming.
-* Maintain previous conversations in local storage.
 
 ---
 
@@ -260,6 +259,7 @@ The following features are intentionally excluded:
 * Long-term memory
 * Multi-language support
 * Streaming multi-agent debate
+* Persistent conversation history
 
 ---
 
@@ -285,7 +285,7 @@ Gemini Processing
 
 ↓
 
-Mentor Response
+Sequential Mentor Responses
 
 ↓
 
@@ -300,6 +300,8 @@ Audio Playback
 Next User Turn
 
 ---
+
+# 13. Conversation Flow
 
 Each user prompt begins a new discussion round.
 
@@ -349,9 +351,17 @@ State Management:
 
 Storage:
 
-* Browser Local Storage
+• Browser LocalStorage
+
+Currently stores:
+
+- Personal Notes
+
+Conversation history persistence is planned for a future version.
 
 Deployment:
+
+Not implemented for the hackathon but will be deployed as follows:
 
 * Frontend: Vercel
 * Backend: Render
@@ -368,7 +378,6 @@ The MVP will be considered successful if users can:
 * Hear AI-generated voice responses.
 * Maintain conversation context across multiple discussion rounds.
 * Take notes during conversations.
-* Access previous conversations.
 * Complete the experience without application crashes.
 * Complete an uninterrupted multi-mentor discussion.
 * Receive context-aware mentor responses.
@@ -391,6 +400,7 @@ The MVP will be considered successful if users can:
 • Multi-language support
 • Emotion-aware responses
 • Voice cloning
+• Conversation history and searchable sessions
 
 ---
 
