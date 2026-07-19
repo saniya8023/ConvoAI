@@ -1,41 +1,55 @@
 # API Specification
 
-## POST /conversation/start
+## Base URL
 
-Starts a new conversation.
+http://localhost:8001/api
 
 ---
 
-## POST /conversation/message
+## POST /chat
 
-Receives a user message.
+Processes a user message and generates a mentor response.
 
-Input:
+### Request
 
-- Conversation ID
-- User message
+```json
+{
+  "mentor": "career-mentor",
+  "message": "I want to build an AI startup."
+}
+```
+
+### Response
+
+```json
+{
+  "reply": "Career Mentor's response..."
+}
+```
+
+---
+
+## GET /health
+
+Health check endpoint.
 
 Returns:
 
-- Updated conversation
+```json
+{
+  "status": "ok"
+}
+```
 
 ---
 
-## POST /conversation/respond
+## Future API (Post-Hackathon)
 
-Generates a mentor response.
+The final vision of ConvoAI will introduce endpoints such as:
 
-Input:
+- POST /conversation/start
+- POST /conversation/message
+- POST /conversation/round
+- GET /conversation/history
 
-- Conversation ID
-- Mentor Role
-
-Returns:
-
-- Mentor response
-
----
-
-## GET /conversation/history
-
-Returns previous conversations.
+These will support true multi-agent conversations managed entirely by the backend.
