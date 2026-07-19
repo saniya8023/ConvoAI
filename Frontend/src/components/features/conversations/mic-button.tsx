@@ -125,9 +125,15 @@ export function MicButton() {
             onClick={replay}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.92 }}
-            className="flex size-9 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:text-foreground"
+            className="group relative flex size-9 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:text-foreground"
           >
             <RotateCcw className="size-4" />
+            <span
+              role="tooltip"
+              className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 rounded-md border border-border bg-card px-2 py-1 text-[11px] whitespace-nowrap text-foreground opacity-0 shadow-sm transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
+            >
+              Replay last response
+            </span>
           </motion.button>
         )}
 

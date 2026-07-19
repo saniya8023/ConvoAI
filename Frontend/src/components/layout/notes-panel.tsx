@@ -29,7 +29,7 @@ export function NotesPanel() {
             </div>
 
             <Textarea
-              placeholder="Type your notes here..."
+              placeholder="Take notes during your conversation..."
               className="flex-1"
             />
           </div>

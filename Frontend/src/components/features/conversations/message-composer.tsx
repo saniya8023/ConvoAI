@@ -39,7 +39,7 @@ export function MessageComposer() {
 
   return (
     <div className="flex w-full min-h-0 flex-1 flex-col gap-3">
-      <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto rounded-lg border border-border bg-card p-3">
+      <div className="no-scrollbar flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto rounded-lg border border-border bg-card p-3">
         {messages.length === 0 && !isRunning && (
           <p className="m-auto text-center text-xs text-muted-foreground">
             Send a message and every mentor in the room will respond, one
@@ -48,14 +48,14 @@ export function MessageComposer() {
         )}
 
         {messages.map((message) => {
-          // Every mentor turn is labeled with who said it — this is one
-          // shared thread all mentors (and the user) speak into, not a
-          // per-mentor view.
-          const speakerLabel =
+          // Every mentor turn is labeled with who said it via a small
+          // colored badge — one shared thread all mentors (and the user)
+          // speak into, not a per-mentor view.
+          const speakerMentor =
             message.role === "mentor"
               ? MENTORS.find((mentor) => mentor.id === message.mentorId)
-                  ?.title
               : null;
+          const SpeakerIcon = speakerMentor?.icon;
 
           return (
             <div
@@ -63,15 +63,23 @@ export function MessageComposer() {
               className={
                 message.role === "user"
                   ? "self-end rounded-lg bg-primary px-3 py-1.5 text-xs text-primary-foreground"
-                  : "self-start rounded-lg bg-muted px-3 py-1.5 text-xs text-foreground"
+                  : "flex items-start gap-1.5 self-start rounded-lg bg-muted px-3 py-1.5 text-xs text-foreground"
               }
             >
-              {speakerLabel && (
-                <span className="mb-0.5 block text-[10px] font-semibold tracking-wide text-muted-foreground uppercase">
-                  {speakerLabel}
+              {speakerMentor && SpeakerIcon && (
+                <span
+                  title={speakerMentor.title}
+                  aria-label={speakerMentor.title}
+                  className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full"
+                  style={{
+                    backgroundColor: `${speakerMentor.color}26`,
+                    color: speakerMentor.color,
+                  }}
+                >
+                  <SpeakerIcon className="size-2.5" />
                 </span>
               )}
-              {message.content}
+              <span>{message.content}</span>
             </div>
           );
         })}

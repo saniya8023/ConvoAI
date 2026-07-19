@@ -128,3 +128,15 @@
     @apply font-sans;
   }
 }
+
+@layer utilities {
+  /* Hides the scrollbar track/thumb while leaving scrolling, wheel,
+     touch, and keyboard scroll behavior completely unchanged. */
+  .no-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and legacy Edge */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}

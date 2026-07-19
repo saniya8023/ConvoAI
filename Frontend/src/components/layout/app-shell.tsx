@@ -4,7 +4,6 @@ import { MicButton } from "@/components/features/conversations/mic-button";
 import { AuroraBackground } from "@/components/layout/aurora-background";
 import { Header } from "@/components/layout/header";
 import { NotesPanel } from "@/components/layout/notes-panel";
-import { Sidebar } from "@/components/layout/sidebar";
 
 export function AppShell() {
   return (
@@ -14,8 +13,6 @@ export function AppShell() {
       <Header />
 
       <div className="relative z-10 flex flex-1 overflow-hidden">
-        <Sidebar />
-
         <main className="relative flex flex-1 flex-col overflow-hidden">
           <MentorWorkspace />
 
