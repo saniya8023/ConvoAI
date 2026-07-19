@@ -36,24 +36,23 @@ They need a conversation.
 
 # Inspiration
 
-The idea for ConvoAI came from a very simple real-life experience.
+The idea for ConvoAI came from a simple conversation.
 
-A few days before this hackathon, my friends and I spent almost two hours discussing our careers. Every person looked at the same problem differently. Someone focused on opportunities, another pointed out risks, someone encouraged us emotionally, while another suggested practical next steps.
+A few days before this hackathon, my friends and I spent almost two hours discussing our careers. Everyone looked at the same problem from a different perspective. One focused on opportunities, another pointed out risks, someone encouraged us emotionally, while another suggested practical next steps.
 
 When that conversation ended, I realized something.
 
-Not everyone has friends, seniors, or mentors they can sit with and have these kinds of meaningful discussions.
+Not everyone has friends, seniors, or mentors they can sit with for hours and openly discuss important life decisions.
 
-Many students make important decisions completely alone.
+Many students and young professionals make career, education, and startup decisions completely alone.
 
-That is when I thought...
+Even when experienced mentors are available, they often have limited time, and one-on-one mentorship is expensive and not accessible to everyone.
 
-**What if AI could recreate that experience?**
+As a result, many people rely on scattered internet advice or a single AI response, which often isn't enough for important decisions.
 
-Not by replacing people, but by giving users access to multiple expert perspectives inside one conversation.
+That inspired me to build ConvoAI.
 
-That idea became ConvoAI.
-
+Instead of replacing human mentors, ConvoAI recreates the experience of discussing an idea with multiple experts in one place, making thoughtful guidance more accessible to students and young professionals.
 ---
 
 # Solution Overview
@@ -216,9 +215,10 @@ http://localhost:3000
 ```
 ConvoAI/
 │
-├── Frontend/
 ├── Backend/
-└── README.md
+├── Frontend/
+├── docs/
+├── README.md
 ```
 
 ---
@@ -238,6 +238,23 @@ The long-term vision is to build an AI collaboration platform where users can br
 As AI becomes part of everyday life, we believe people will need thoughtful discussions, not just instant answers.
 
 ConvoAI is our first step toward that future.
+
+---
+
+# Future Enhancements
+
+ConvoAI is only the beginning. Future versions will include:
+
+- AI mentors talking to each other naturally before presenting a final recommendation.
+- Create your own custom AI mentors with personalized roles, personalities, and expertise.
+- Automatic meeting summary and note generation after every conversation.
+- Actionable task lists and personalized roadmaps generated from discussions.
+- Conversation memory so mentors remember previous sessions over time.
+- Collaborative group discussions with multiple users and AI mentors together.
+- Integration with calendars and productivity tools to turn advice into action.
+- Support for multilingual conversations.
+- Emotion-aware conversations that adapt responses based on user sentiment.
+- Personalized mentor recommendations based on the user's goals and discussion history.
 
 ---
 
