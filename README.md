@@ -456,6 +456,7 @@ Tap on the pause button, the other mentor's response will start, and on pressing
 
 # 💡 Tips
 
+- If any feature does not work, give it a second try every time.
 - Use voice mode for the most natural experience.
 - Choose mentors from different domains to receive diverse perspectives.
 - Use the Notes panel to record useful advice during discussions.
