@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     environment: str = "development"
     cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:3000"])
     gemini_api_key: str = ""
-    gemini_model: str = "gemini-2.5-flash"
+    gemini_model: str = "gemini-3.5-flash"
 
     model_config = SettingsConfigDict(
         env_file=".env",
