@@ -62,23 +62,23 @@ Responsibilities:
 
 ## AI Layer
 
-Model:
-- Gemini (Free Tier)
+ConvoAI uses Google's Gemini 2.5 Flash model.
 
-One model is shared across all mentors.
+Instead of using multiple AI models, a single Gemini model dynamically adopts different mentor personalities through specialized system prompts.
 
-Different mentor personalities are created using different system prompts.
+This keeps the MVP lightweight while creating the experience of multiple experts collaborating in one discussion.
 
 ---
 
-## Conversation Manager
+# Conversation Manager
 
-Responsibilities:
+Responsibilities
 
-- Maintain conversation history
-- Track current discussion round
-- Pass previous mentor responses
-- Prepare context for Gemini
+• Maintain one shared conversation history.
+• Pass previous mentor responses as context.
+• Preserve discussion order.
+• Build context for the next mentor.
+• Ensure mentors contribute unique perspectives.
 
 ---
 
@@ -97,15 +97,16 @@ Mentors:
 
 ## Storage
 
-LocalStorage
+Browser Local Storage
 
 Stores:
 
-- Notes
-- Conversation titles
-- Conversation history
+• Notes
+• Conversation titles
+• Conversation history
+• Selected mentors
 
-No cloud database is used in MVP.
+No cloud database is used in the MVP.
 
 ---
 
