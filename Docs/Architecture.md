@@ -4,25 +4,7 @@
 
 ConvoAI follows a simple client-server architecture with a voice-first interaction model.
 
-User Voice
-↓
-Speech-to-Text
-↓
-Frontend
-↓
-FastAPI Backend
-↓
-Conversation Manager
-↓
-Prompt Manager
-↓
-Gemini API
-↓
-Response
-↓
-SpeechSynthesis
-↓
-Voice Output
+User Voice -> Speech-to-Text -> Frontend -> FastAPI Backend -> Conversation Manager -> Prompt Manager -> Gemini API -> Response -> SpeechSynthesis -> Voice Output
 
 ---
 
