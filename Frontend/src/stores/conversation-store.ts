@@ -22,6 +22,7 @@ type ConversationStore = {
   openMentorModal: () => void;
   closeMentorModal: () => void;
   toggleMentor: (id: MentorId) => void;
+  removeMentor: (id: MentorId) => void;
   setActiveMentor: (id: MentorId) => void;
   addMessage: (message: ConversationMessage) => void;
 };
@@ -63,6 +64,14 @@ export const useConversationStore = create<ConversationStore>()((set) => ({
 
       return { selectedMentorIds: [...state.selectedMentorIds, id] };
     }),
+
+  removeMentor: (id) =>
+    set((state) => ({
+      selectedMentorIds: state.selectedMentorIds.filter(
+        (mentorId) => mentorId !== id
+      ),
+      activeMentorId: state.activeMentorId === id ? null : state.activeMentorId,
+    })),
 
   setActiveMentor: (id) => set({ activeMentorId: id }),
 

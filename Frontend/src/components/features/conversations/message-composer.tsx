@@ -8,8 +8,6 @@ import { sendChatMessage } from "@/services";
 import { useConversationStore } from "@/stores";
 import type { MentorId } from "@/types";
 
-const LIVE_MENTOR_ID: MentorId = "career-mentor";
-
 type MessageComposerProps = {
   mentorId: MentorId;
 };
@@ -25,7 +23,6 @@ export function MessageComposer({ mentorId }: MessageComposerProps) {
   const mentorMessages = messages.filter(
     (message) => message.mentorId === mentorId
   );
-  const isLive = mentorId === LIVE_MENTOR_ID;
 
   async function handleSend() {
     const trimmed = draft.trim();
@@ -41,11 +38,6 @@ export function MessageComposer({ mentorId }: MessageComposerProps) {
       content: trimmed,
       createdAt: new Date().toISOString(),
     });
-
-    if (!isLive) {
-      setError("This mentor isn't connected yet — only Career Mentor replies for now.");
-      return;
-    }
 
     setIsSending(true);
 

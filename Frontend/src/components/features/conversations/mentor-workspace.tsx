@@ -16,6 +16,7 @@ export function MentorWorkspace() {
   const setActiveMentor = useConversationStore(
     (state) => state.setActiveMentor
   );
+  const removeMentor = useConversationStore((state) => state.removeMentor);
 
   if (selectedMentorIds.length === 0) {
     return (
@@ -32,10 +33,14 @@ export function MentorWorkspace() {
 
   return (
     <div className="relative h-full w-full flex-1">
-      <div className="absolute inset-x-0 top-10 flex flex-col items-center gap-4 px-6">
+      <div className="absolute inset-x-0 top-8 flex flex-col items-center gap-4 px-4 sm:top-10 sm:px-6">
         <AnimatePresence mode="wait">
           {activeMentor ? (
-            <MentorProfileCard key={activeMentor.id} mentor={activeMentor} />
+            <MentorProfileCard
+              key={activeMentor.id}
+              mentor={activeMentor}
+              onRemove={() => removeMentor(activeMentor.id)}
+            />
           ) : (
             <motion.p
               key="prompt"
@@ -50,7 +55,9 @@ export function MentorWorkspace() {
           )}
         </AnimatePresence>
 
-        {activeMentor && <MessageComposer mentorId={activeMentor.id} />}
+        {activeMentor && (
+          <MessageComposer key={activeMentor.id} mentorId={activeMentor.id} />
+        )}
       </div>
 
       <AnimatePresence>
@@ -67,6 +74,7 @@ export function MentorWorkspace() {
               position={position}
               active={mentor.id === activeMentorId}
               onSelect={() => setActiveMentor(mentor.id)}
+              onRemove={() => removeMentor(mentor.id)}
             />
           );
         })}
