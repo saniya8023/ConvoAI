@@ -4,12 +4,22 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Mic, MicOff, RotateCcw, Square } from "lucide-react";
 
-import { useMentorChat, useSpeechRecognition, useSpeechSynthesis } from "@/hooks";
+import { useConversationHall, useSpeechRecognition, useSpeechSynthesis } from "@/hooks";
 import { useConversationStore } from "@/stores";
 
+/**
+ * The Conversation Hall's one and only microphone. Speaking once triggers
+ * every selected mentor to respond automatically, same as typing a
+ * message. The mic (and, via useConversationHall, the text input) stay
+ * disabled for the whole sequence, and mentors are spoken in strict order
+ * — each speak() call is awaited before the next mentor's reply starts —
+ * so voice mode can't overlap or interrupt itself mid-panel.
+ */
 export function MicButton() {
-  const activeMentorId = useConversationStore((state) => state.activeMentorId);
-  const { sendMessage, isSending } = useMentorChat(activeMentorId);
+  const selectedMentorIds = useConversationStore(
+    (state) => state.selectedMentorIds
+  );
+  const { sendMessage, isRunning } = useConversationHall();
 
   const {
     isSupported: isRecognitionSupported,
@@ -31,10 +41,18 @@ export function MicButton() {
   const [lastReply, setLastReply] = useState<string | null>(null);
 
   async function handleFinalTranscript(transcript: string) {
-    const reply = await sendMessage(transcript);
-    if (reply) {
-      setLastReply(reply);
-      if (isSynthesisSupported) speak(reply);
+    const results = await sendMessage(transcript);
+    if (results.length === 0) return;
+
+    setLastReply(results[results.length - 1].reply);
+
+    if (isSynthesisSupported) {
+      // Await each mentor's speech in turn so the room speaks in the same
+      // sequence it responded in, instead of the next mentor's speak()
+      // cutting off whoever is still talking.
+      for (const result of results) {
+        await speak(result.reply);
+      }
     }
   }
 
@@ -49,13 +67,14 @@ export function MicButton() {
       return;
     }
 
-    if (!activeMentorId || isSending || !isRecognitionSupported) return;
+    if (selectedMentorIds.length === 0 || isRunning || !isRecognitionSupported)
+      return;
 
     start(handleFinalTranscript);
   }
 
   const canStartListening =
-    !!activeMentorId && !isSending && isRecognitionSupported;
+    selectedMentorIds.length > 0 && !isRunning && isRecognitionSupported;
   const isDisabled = !isSpeaking && !canStartListening;
 
   return (

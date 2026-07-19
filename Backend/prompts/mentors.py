@@ -39,7 +39,23 @@ DEFAULT_SYSTEM_PROMPT = (
     "Be concise, practical, and conversational."
 )
 
+# Human-readable names, matching the frontend's MENTORS constant, used to
+# label each mentor's turns when building shared multi-mentor history.
+MENTOR_DISPLAY_NAMES: dict[str, str] = {
+    "career-mentor": "Career Mentor",
+    "therapist": "Therapist",
+    "startup-advisor": "Startup Advisor",
+    "study-coach": "Study Coach",
+}
+
 
 def get_system_prompt(mentor_id: str) -> str:
     """Return the system prompt for a mentor id, falling back to a default."""
     return MENTOR_SYSTEM_PROMPTS.get(mentor_id, DEFAULT_SYSTEM_PROMPT)
+
+
+def get_mentor_display_name(mentor_id: str | None) -> str:
+    """Return the human-readable name for a mentor id."""
+    if mentor_id is None:
+        return "Mentor"
+    return MENTOR_DISPLAY_NAMES.get(mentor_id, "Mentor")

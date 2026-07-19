@@ -25,18 +25,30 @@ export function useSpeechSynthesis() {
   const lastTextRef = useRef<string>("");
 
   const speak = useCallback(
-    (text: string) => {
-      if (!isSupported || !text) return;
+    (text: string): Promise<void> => {
+      if (!isSupported || !text) return Promise.resolve();
 
       window.speechSynthesis.cancel();
       lastTextRef.current = text;
 
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
-      utterance.onerror = () => setIsSpeaking(false);
+      // Resolving on end/error (rather than firing and forgetting) lets
+      // voice mode await one mentor's speech before starting the next, so
+      // mentors speak strictly in sequence instead of the next call's
+      // cancel() cutting off whoever is still talking.
+      return new Promise((resolve) => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.onstart = () => setIsSpeaking(true);
+        utterance.onend = () => {
+          setIsSpeaking(false);
+          resolve();
+        };
+        utterance.onerror = () => {
+          setIsSpeaking(false);
+          resolve();
+        };
 
-      window.speechSynthesis.speak(utterance);
+        window.speechSynthesis.speak(utterance);
+      });
     },
     [isSupported]
   );

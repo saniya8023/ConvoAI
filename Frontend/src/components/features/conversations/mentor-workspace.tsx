@@ -1,10 +1,9 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
+import { ChatPanel } from "@/components/features/conversations/chat-panel";
 import { MentorNode } from "@/components/features/conversations/mentor-node";
-import { MentorProfileCard } from "@/components/features/conversations/mentor-profile-card";
-import { MessageComposer } from "@/components/features/conversations/message-composer";
 import { MENTOR_SLOT_POSITIONS, MENTORS } from "@/constants";
 import { useConversationStore } from "@/stores";
 
@@ -32,53 +31,40 @@ export function MentorWorkspace() {
     MENTORS.find((mentor) => mentor.id === activeMentorId) ?? null;
 
   return (
-    <div className="relative h-full w-full flex-1">
-      <div className="absolute inset-x-0 top-8 flex flex-col items-center gap-4 px-4 sm:top-10 sm:px-6">
-        <AnimatePresence mode="wait">
-          {activeMentor ? (
-            <MentorProfileCard
-              key={activeMentor.id}
-              mentor={activeMentor}
-              onRemove={() => removeMentor(activeMentor.id)}
-            />
-          ) : (
-            <motion.p
-              key="prompt"
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="text-sm text-muted-foreground"
-            >
-              Select a mentor to begin.
-            </motion.p>
-          )}
-        </AnimatePresence>
+    <div className="relative flex h-full w-full flex-1 overflow-hidden">
+      {/* Mentor list / graph. The chat panel below is docked beside this
+          area rather than floating on top of it, and stays mounted
+          regardless of which mentor node is clicked. */}
+      <div className="relative h-full flex-1 overflow-hidden">
+        <AnimatePresence>
+          {selectedMentorIds.map((mentorId, index) => {
+            const mentor = MENTORS.find(
+              (candidate) => candidate.id === mentorId
+            );
+            const position = MENTOR_SLOT_POSITIONS[index];
 
-        {activeMentor && (
-          <MessageComposer key={activeMentor.id} mentorId={activeMentor.id} />
-        )}
+            if (!mentor || !position) return null;
+
+            return (
+              <MentorNode
+                key={mentor.id}
+                mentor={mentor}
+                position={position}
+                active={mentor.id === activeMentorId}
+                onSelect={() => setActiveMentor(mentor.id)}
+                onRemove={() => removeMentor(mentor.id)}
+              />
+            );
+          })}
+        </AnimatePresence>
       </div>
 
-      <AnimatePresence>
-        {selectedMentorIds.map((mentorId, index) => {
-          const mentor = MENTORS.find((candidate) => candidate.id === mentorId);
-          const position = MENTOR_SLOT_POSITIONS[index];
-
-          if (!mentor || !position) return null;
-
-          return (
-            <MentorNode
-              key={mentor.id}
-              mentor={mentor}
-              position={position}
-              active={mentor.id === activeMentorId}
-              onSelect={() => setActiveMentor(mentor.id)}
-              onRemove={() => removeMentor(mentor.id)}
-            />
-          );
-        })}
-      </AnimatePresence>
+      <ChatPanel
+        activeMentor={activeMentor}
+        onRemoveActiveMentor={() => {
+          if (activeMentor) removeMentor(activeMentor.id);
+        }}
+      />
     </div>
   );
 }
