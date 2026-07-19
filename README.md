@@ -460,7 +460,6 @@ Tap on the pause button, the other mentor's response will start, and on pressing
 - Use voice mode for the most natural experience.
 - Choose mentors from different domains to receive diverse perspectives.
 - Use the Notes panel to record useful advice during discussions.
-- Start a new conversation using the ↺ button whenever you want to discuss a completely different topic.
 
 ---
 
