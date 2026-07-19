@@ -107,15 +107,21 @@ Mentors cannot be added or removed after the conversation begins.
 
 ---
 
-## Guided Expert Discussion
+## Guided Multi-Mentor Discussion
 
-Users decide which mentor should respond by clicking the mentor's circle.
+The user submits a single prompt.
 
-Mentors respond sequentially based on user interaction rather than automatically.
+ConvoAI automatically orchestrates a structured discussion between the selected mentors.
 
-Each mentor contributes only within their area of expertise.
+Each mentor receives:
 
-Mentors may reference previous mentor responses when relevant but should primarily add new insights rather than repeating existing advice.
+• the user's prompt
+• previous mentor responses
+• the shared conversation context
+
+Every mentor builds upon the discussion, contributing new insights instead of repeating earlier responses.
+
+The interaction feels like a collaborative panel discussion rather than isolated chatbot replies.
 
 ---
 
@@ -196,21 +202,15 @@ Responsibilities:
 
 ---
 
-# 8. User Journey
-
 1. User opens ConvoAI.
-2. User selects mentors using the "+" button.
-3. Selected mentors appear in the workspace.
-4. User starts voice recording.
-5. Speech is converted into text.
-6. Transcript is displayed for review.
-7. User sends the message.
-8. User selects a mentor to respond.
-9. Mentor generates and speaks a response.
-10. User may consult additional mentors.
-11. User records another message to begin the next discussion round.
-12. Conversation continues until the user ends the session.
-
+2. User selects mentors.
+3. User starts voice recording or types a prompt.
+4. Speech is converted into text (if voice is used).
+5. User sends a single prompt.
+6. The first mentor responds.
+7. Remaining mentors automatically respond one after another.
+8. Responses are spoken aloud using Text-to-Speech.
+9. After all mentors finish, the user can ask another question.
 ---
 
 # 9. Functional Requirements
@@ -220,7 +220,7 @@ The system shall:
 * Support voice recording.
 * Convert speech into text.
 * Display the generated transcript before sending.
-* Allow users to choose mentor response order.
+* Automatically orchestrate mentor responses in a predefined sequence.
 * Maintain complete conversation history during the session.
 * Generate mentor responses using Gemini.
 * Convert responses into speech.
@@ -301,22 +301,19 @@ Next User Turn
 
 ---
 
-# 13. Conversation Flow
+Each user prompt begins a new discussion round.
 
-Each user message starts a new discussion round.
+Selected mentors respond automatically in sequence.
 
-Users choose which mentor to consult during that round.
+Every mentor receives:
 
-Mentors use:
+• the original user prompt
+• previous mentor responses
+• complete discussion context
 
-* the latest user message
-* previous conversation history
-* previous mentor responses
+Each response expands the conversation with new insights, creating a natural multi-expert discussion.
 
-to generate contextual responses.
-
-Starting a new user message closes the previous discussion round.
-
+After the final mentor finishes speaking, the user may begin the next discussion round.
 ---
 
 # 14. Technical Overview
@@ -373,23 +370,27 @@ The MVP will be considered successful if users can:
 * Take notes during conversations.
 * Access previous conversations.
 * Complete the experience without application crashes.
+* Complete an uninterrupted multi-mentor discussion.
+* Receive context-aware mentor responses.
+* Experience a realistic AI panel discussion.
 
 ---
 
 # 16. Future Enhancements
 
-Potential future improvements include:
-
-* Custom mentor creation
-* Team conversations
-* Live mentor debates
-* Cloud synchronization
-* User authentication
-* AI-generated meeting summaries
-* Voice cloning
-* Emotion detection
-* Multi-language support
-* Personalized mentor memory
+• AI mentors debating each other naturally
+• Real-time streaming conversations
+• Custom mentor creation
+• Persistent long-term memory
+• AI-generated meeting notes
+• Action plan generation
+• Calendar integration
+• Team collaboration rooms
+• Cloud synchronization
+• Authentication
+• Multi-language support
+• Emotion-aware responses
+• Voice cloning
 
 ---
 
