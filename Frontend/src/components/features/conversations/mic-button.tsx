@@ -1,69 +1,176 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { Mic } from "lucide-react";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Mic, MicOff, RotateCcw, Square } from "lucide-react";
 
-const RECORDING_DURATION_MS = 2000;
+import { useMentorChat, useSpeechRecognition, useSpeechSynthesis } from "@/hooks";
+import { useConversationStore } from "@/stores";
 
 export function MicButton() {
-  const [isRecording, setIsRecording] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const activeMentorId = useConversationStore((state) => state.activeMentorId);
+  const { sendMessage, isSending } = useMentorChat(activeMentorId);
 
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, []);
+  const {
+    isSupported: isRecognitionSupported,
+    isListening,
+    interimTranscript,
+    error: recognitionError,
+    start,
+    stop,
+  } = useSpeechRecognition();
 
-  function handleClick() {
-    if (isRecording) return;
+  const {
+    isSupported: isSynthesisSupported,
+    isSpeaking,
+    speak,
+    stop: stopSpeaking,
+    replay,
+  } = useSpeechSynthesis();
 
-    setIsRecording(true);
-    timeoutRef.current = setTimeout(() => {
-      setIsRecording(false);
-    }, RECORDING_DURATION_MS);
+  const [lastReply, setLastReply] = useState<string | null>(null);
+
+  async function handleFinalTranscript(transcript: string) {
+    const reply = await sendMessage(transcript);
+    if (reply) {
+      setLastReply(reply);
+      if (isSynthesisSupported) speak(reply);
+    }
   }
 
+  function handleMicClick() {
+    if (isSpeaking) {
+      stopSpeaking();
+      return;
+    }
+
+    if (isListening) {
+      stop();
+      return;
+    }
+
+    if (!activeMentorId || isSending || !isRecognitionSupported) return;
+
+    start(handleFinalTranscript);
+  }
+
+  const canStartListening =
+    !!activeMentorId && !isSending && isRecognitionSupported;
+  const isDisabled = !isSpeaking && !canStartListening;
+
   return (
-    <motion.button
-      type="button"
-      onClick={handleClick}
-      aria-label={isRecording ? "Recording" : "Start recording"}
-      aria-pressed={isRecording}
-      whileHover={{ scale: isRecording ? 1 : 1.04 }}
-      whileTap={{ scale: isRecording ? 1 : 0.96 }}
-      animate={
-        isRecording
-          ? {
-              boxShadow: [
-                "0 0 0 0 rgba(248,81,73,0.35)",
-                "0 0 0 14px rgba(248,81,73,0)",
-              ],
+    <div className="relative flex flex-col items-center">
+      <AnimatePresence>
+        {isListening && interimTranscript && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.15 }}
+            className="absolute -top-12 max-w-64 truncate rounded-full border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground shadow-sm"
+          >
+            {interimTranscript}
+          </motion.div>
+        )}
+
+        {!isListening && recognitionError && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.15 }}
+            className="absolute -top-12 max-w-64 truncate rounded-full border border-destructive/40 bg-card px-3 py-1.5 text-xs text-destructive shadow-sm"
+          >
+            {recognitionError}
+          </motion.div>
+        )}
+
+        {!isListening && !recognitionError && !isRecognitionSupported && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.15 }}
+            className="absolute -top-12 max-w-64 truncate rounded-full border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground shadow-sm"
+          >
+            Voice input isn&apos;t supported in this browser.
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="flex items-end gap-3">
+        {lastReply && !isSpeaking && isSynthesisSupported && (
+          <motion.button
+            type="button"
+            aria-label="Replay last response"
+            onClick={replay}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.92 }}
+            className="flex size-9 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:text-foreground"
+          >
+            <RotateCcw className="size-4" />
+          </motion.button>
+        )}
+
+        <motion.button
+          type="button"
+          onClick={handleMicClick}
+          disabled={isDisabled}
+          aria-label={
+            isSpeaking
+              ? "Stop AI speech"
+              : isListening
+                ? "Stop listening"
+                : "Start listening"
+          }
+          aria-pressed={isListening}
+          whileHover={{ scale: isDisabled ? 1 : 1.04 }}
+          whileTap={{ scale: isDisabled ? 1 : 0.96 }}
+          animate={
+            isListening || isSpeaking
+              ? {
+                  boxShadow: [
+                    `0 0 0 0 ${isSpeaking ? "rgba(88,166,255,0.35)" : "rgba(248,81,73,0.35)"}`,
+                    "0 0 0 14px rgba(0,0,0,0)",
+                  ],
+                }
+              : { boxShadow: "0 0 0 0 rgba(0,0,0,0)" }
+          }
+          transition={
+            isListening || isSpeaking
+              ? { duration: 1.1, repeat: Infinity, ease: "easeOut" }
+              : { duration: 0.15, ease: "easeOut" }
+          }
+          className="flex size-16 items-center justify-center rounded-full border border-border shadow-lg shadow-black/20 outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-40"
+          style={{
+            backgroundColor: isSpeaking
+              ? "#58A6FF"
+              : isListening
+                ? "#F85149"
+                : "var(--primary)",
+            color: "var(--primary-foreground)",
+          }}
+        >
+          <motion.span
+            animate={
+              isListening || isSpeaking ? { scale: [1, 1.15, 1] } : { scale: 1 }
             }
-          : { boxShadow: "0 0 0 0 rgba(248,81,73,0)" }
-      }
-      transition={
-        isRecording
-          ? { duration: 1.1, repeat: Infinity, ease: "easeOut" }
-          : { duration: 0.15, ease: "easeOut" }
-      }
-      className="flex size-16 items-center justify-center rounded-full border border-border shadow-lg shadow-black/20 outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50"
-      style={{
-        backgroundColor: isRecording ? "#F85149" : "var(--primary)",
-        color: "var(--primary-foreground)",
-      }}
-    >
-      <motion.span
-        animate={isRecording ? { scale: [1, 1.15, 1] } : { scale: 1 }}
-        transition={
-          isRecording
-            ? { duration: 1, repeat: Infinity, ease: "easeInOut" }
-            : { duration: 0.15 }
-        }
-      >
-        <Mic className="size-6" />
-      </motion.span>
-    </motion.button>
+            transition={
+              isListening || isSpeaking
+                ? { duration: 1, repeat: Infinity, ease: "easeInOut" }
+                : { duration: 0.15 }
+            }
+          >
+            {isSpeaking ? (
+              <Square className="size-6" />
+            ) : !isRecognitionSupported ? (
+              <MicOff className="size-6" />
+            ) : (
+              <Mic className="size-6" />
+            )}
+          </motion.span>
+        </motion.button>
+      </div>
+    </div>
   );
 }

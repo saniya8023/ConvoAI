@@ -4,8 +4,7 @@ import { useState } from "react";
 import { AlertCircle, Loader2, Send } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { sendChatMessage } from "@/services";
-import { useConversationStore } from "@/stores";
+import { useMentorChat } from "@/hooks";
 import type { MentorId } from "@/types";
 
 type MessageComposerProps = {
@@ -14,51 +13,14 @@ type MessageComposerProps = {
 
 export function MessageComposer({ mentorId }: MessageComposerProps) {
   const [draft, setDraft] = useState("");
-  const [isSending, setIsSending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const messages = useConversationStore((state) => state.messages);
-  const addMessage = useConversationStore((state) => state.addMessage);
-
-  const mentorMessages = messages.filter(
-    (message) => message.mentorId === mentorId
-  );
+  const { mentorMessages, isSending, error, sendMessage } =
+    useMentorChat(mentorId);
 
   async function handleSend() {
-    const trimmed = draft.trim();
-    if (!trimmed || isSending) return;
-
-    setError(null);
+    if (!draft.trim() || isSending) return;
+    const text = draft;
     setDraft("");
-
-    addMessage({
-      id: `msg_${Date.now()}_user`,
-      mentorId,
-      role: "user",
-      content: trimmed,
-      createdAt: new Date().toISOString(),
-    });
-
-    setIsSending(true);
-
-    try {
-      const response = await sendChatMessage({
-        mentor: mentorId,
-        message: trimmed,
-      });
-
-      addMessage({
-        id: `msg_${Date.now()}_mentor`,
-        mentorId,
-        role: "mentor",
-        content: response.reply,
-        createdAt: new Date().toISOString(),
-      });
-    } catch {
-      setError("Couldn't reach the mentor. Please try again.");
-    } finally {
-      setIsSending(false);
-    }
+    await sendMessage(text);
   }
 
   return (
