@@ -107,13 +107,3 @@ Stores:
 • Selected mentors
 
 No cloud database is used in the MVP.
-
----
-
-## Deployment
-
-Frontend:
-- Vercel
-
-Backend:
-- Render
