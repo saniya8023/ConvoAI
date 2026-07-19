@@ -56,11 +56,11 @@ This keeps the MVP lightweight while creating the experience of multiple experts
 
 Responsibilities
 
-• Maintain one shared conversation history.
-• Pass previous mentor responses as context.
-• Preserve discussion order.
-• Build context for the next mentor.
-• Ensure mentors contribute unique perspectives.
+- Maintain one shared conversation history.
+- Pass previous mentor responses as context.
+- Preserve discussion order.
+- Build context for the next mentor.
+- Ensure mentors contribute unique perspectives.
 
 ---
 
@@ -79,13 +79,14 @@ Mentors:
 
 ## Storage
 
-Browser Local Storage
+## Storage
 
-Stores:
+The MVP uses browser LocalStorage for lightweight local persistence.
 
-• Notes
-• Conversation titles
-• Conversation history
-• Selected mentors
+Currently stores:
+
+- Personal Notes
 
 No cloud database is used in the MVP.
+
+Conversation history is intentionally not persisted in this version to keep the experience focused on a single live Conversation Hall session.
