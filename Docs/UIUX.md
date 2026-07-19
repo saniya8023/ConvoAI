@@ -8,13 +8,12 @@ Single-page application.
 
 ## Components
 
-• Shared Conversation Hall
-• Conversation History Sidebar
-• Mentor Selection Panel
-• Notes Panel
-• Single Chat Input
-• Single Microphone Button
-• Shared Conversation Feed
+- Conversation title
+- Mentor circles
+- Shared Conversation Panel
+- Notes panel
+- Voice controls
+- Add Mentor button
 
 ---
 
