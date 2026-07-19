@@ -152,7 +152,15 @@ It gives people access to thoughtful discussions even when they don't have exper
 
 ---
 
-# Installation
+## Quick Start
+
+1. Clone the repository.
+2. Add your Gemini API key to `Backend/.env`.
+3. Start the backend.
+4. Start the frontend.
+5. Open `http://localhost:3000`.
+
+# Complete Installation
 
 ## Clone the repository
 
@@ -195,6 +203,8 @@ GEMINI_MODEL=gemini-2.5-flash
 ## Frontend
 
 ```bash
+Open another terminal
+
 cd Frontend
 
 npm install
@@ -223,9 +233,9 @@ ConvoAI/
 
 ---
 
-# Figma
+## Design
 
-Figma design files are included with the submission.
+The interface was implemented directly during development without separate Figma design files.
 
 ---
 
