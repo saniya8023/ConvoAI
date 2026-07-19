@@ -8,12 +8,25 @@ Single-page application.
 
 ## Components
 
-- Conversation title
-- History sidebar
-- Mentor circles
-- Microphone
-- Notes panel
-- Add mentor button
+• Shared Conversation Hall
+• Conversation History Sidebar
+• Mentor Selection Panel
+• Notes Panel
+• Single Chat Input
+• Single Microphone Button
+• Shared Conversation Feed
+
+---
+
+# Conversation Flow
+
+One shared conversation.
+
+Mentors appear one after another inside the same conversation feed.
+
+No separate mentor chat windows exist.
+
+The interface behaves like a collaborative AI discussion panel.
 
 ---
 
