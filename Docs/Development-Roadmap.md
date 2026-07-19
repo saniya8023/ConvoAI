@@ -1,7 +1,7 @@
 # Roadmap
 
 Phase 1
-Research & Planning
+Idea Generation (creative thinking) & Project Flow Planning
 ✅
 
 Phase 2
